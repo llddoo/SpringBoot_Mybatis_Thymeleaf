@@ -17,25 +17,25 @@ public class NoticeService implements BoardService {
 	@Override
 	public List<BoardVO> getList() throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return noticeMapper.getList();
 	}
 	
 	@Override
 	public BoardVO getSelect(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return noticeMapper.getSelect(boardVO);
 	}
 	
 	@Override
 	public int setInsert(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return noticeMapper.setInsert(boardVO);
 	}
 	
 	@Override
 	public int setDelete(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return noticeMapper.setDelete(boardVO);
 	}
 	
 	@Override
