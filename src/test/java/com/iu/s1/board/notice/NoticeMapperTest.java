@@ -15,18 +15,30 @@ class NoticeMapperTest {
 	
 	@Autowired
 	private NoticeMapper noticeMapper;
- 
 	@Test
-	void getListTest() throws Exception {
+	void setInsertTest() throws Exception {
 		
-		List<BoardVO> ar = noticeMapper.getList();
-		
-		for(BoardVO boardVO:ar) {
-			System.out.println(boardVO.toString());
+		for(int i=0; i<100; i++) {
+			BoardVO boardVO = new BoardVO();
+			boardVO.setTitle("title"+i);
+			boardVO.setContents("Contents"+i);
+			boardVO.setWriter("writer"+i);
+			noticeMapper.setInsert(boardVO);
+			Thread.sleep(200);
 		}
-		
-		assertNotEquals(0, ar.size());
-		
+		System.out.println("Finish");
 	}
+	
+	//@Test
+//	void getListTest() throws Exception {
+//		
+//		List<BoardVO> ar = noticeMapper.getList();
+//		
+//		for(BoardVO boardVO:ar) {
+//			System.out.println(boardVO.toString());
+//		}
+//		
+//		assertNotEquals(0, ar.size());
+//	}
 
 }
