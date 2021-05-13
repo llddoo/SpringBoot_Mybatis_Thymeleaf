@@ -14,6 +14,8 @@ public interface BoardMapper {
 		public BoardVO getSelect(BoardVO boardVO) throws Exception;
 		//Insert
 		public int setInsert(BoardVO boardVO) throws Exception;
+		//FileInsert
+		public int setFileInsert(BoardFileVO boardFileVO) throws Exception;
 		//Update
 		public int setUpdate(BoardVO boardVO) throws Exception;
 		//HitUpdate
