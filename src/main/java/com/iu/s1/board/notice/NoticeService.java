@@ -14,6 +14,7 @@ import com.iu.s1.util.FileManager;
 import com.iu.s1.util.Pager;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class NoticeService implements BoardService {
 
 	@Autowired
