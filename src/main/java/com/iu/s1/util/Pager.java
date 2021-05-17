@@ -14,13 +14,17 @@ public class Pager {
 	private boolean pre;
 	private boolean next;
 	
+	//search
+	private String kind;
+	private String search;
+	
 	public void makeNum(Long totalCount) {
 		int perBlock=5;
 		//1. totalCount
 		
 		//2. totalCount를 이용해서 totalPage수 구하기
 		Long totalPage = totalCount/this.getPerPage();
-		if(totalCount%this.getCurPage() != 0) {
+		if(totalCount%this.getPerPage() != 0) {
 			totalPage++;
 		}
 		//3. totalPage를 이용해서 totalBlock 수 구하기
@@ -38,7 +42,7 @@ public class Pager {
 		//5. curBlock를 이용해서 startNum, lastNum 구하기
 		this.startNum=(curBlock-1)*perBlock+1;
 		this.lastNum=curBlock*perBlock;
-		
+
 		//6. curBlock이 마지막(totalBlock)
 		this.pre=true;
 		this.next=true;
@@ -132,12 +136,12 @@ public class Pager {
 	public void setNext(boolean next) {
 		this.next = next;
 	}
-	
-	//search
-	private String kind;
-	private String search;
 
 	public String getKind() {
+		if(this.kind==null) {
+			this.kind="Title";
+		}
+		
 		return kind;
 	}
 

@@ -2,6 +2,8 @@ package com.iu.s1.board.notice;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.iu.s1.board.BoardFileVO;
 import com.iu.s1.board.BoardVO;
+import com.iu.s1.member.MemberVO;
 import com.iu.s1.util.Pager;
 
 @Controller
@@ -30,15 +34,17 @@ public class NoticeController {
 		return "notice";
 	}
 	
+	// /notice/fileDown
 	@GetMapping("fileDown")
-	public ModelAndView fileDown(String fileName, String oriName) throws Exception {
+	public ModelAndView fileDown(String fileName, String oriName)throws Exception{
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("fileName", fileName);
 		mv.addObject("oriName", oriName);
 		mv.addObject("filePath", "/upload/notice/");
+		
 		// view의 이름은 Bean의 이름과 일치
 		mv.setViewName("down");
-		// /fileDown.html
+		//  /fileDown.html
 		return mv;
 	}
 	
@@ -65,10 +71,24 @@ public class NoticeController {
 	}
 	
 	@GetMapping("insert")
-	public String setInsert(Model model)throws Exception{
+	public String setInsert(Model model, HttpSession session)throws Exception{
 		model.addAttribute("vo", new BoardVO());
 		model.addAttribute("action", "insert");
-		return "board/form";
+		
+		Object obj = session.getAttribute("member");
+		MemberVO memberVO = null;
+		String path="common/result";
+		model.addAttribute("msg", "관리자가 아닙니다");
+		model.addAttribute("path", "./list");
+		//if(obj != null) {}
+		if(obj instanceof MemberVO) {
+			memberVO = (MemberVO)obj;
+			
+			if(memberVO.getUsername().equals("admin")) {
+				path="board/form";
+			}
+		}	
+		return path;
 	}
 	
 	@PostMapping("insert")
