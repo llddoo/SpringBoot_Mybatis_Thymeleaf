@@ -18,32 +18,34 @@ import com.iu.s1.util.Pager;
 @Controller
 @RequestMapping("/qna/**")
 public class QnaController {
-	
 	@Autowired
 	private QnaService qnaService;
-
+	
 	@ModelAttribute("board")
 	public String getBoard() {
-		return "qna"; //Model.addAttribute("board", "qna"); 를 이 선언으로 공통선언
+		return "qna";
 	}
 	
 	@GetMapping("list")
-	public String getList(Pager pager, Model model) throws Exception {
+	public String getList(Pager pager, Model model)throws Exception{
 		List<BoardVO> ar = qnaService.getList(pager);
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
-		
+		for(BoardVO boardVO :ar) {
+			QnaVO qnaVO = (QnaVO)boardVO;
+			System.out.println(qnaVO.getDepth());
+		}
 		return "board/list";
 	}
+	
 	@GetMapping("select")
 	public ModelAndView getSelect(BoardVO boardVO)throws Exception{
 		ModelAndView mv = new ModelAndView();
-		boardVO =qnaService.getSelect(boardVO);
+		boardVO = qnaService.getSelect(boardVO);
 		mv.addObject("vo", boardVO);
 		mv.setViewName("board/select");
 		return mv;
-	}
-	
+	}	
 	
 	@GetMapping("insert")
 	public String setInsert(Model model)throws Exception{
@@ -54,17 +56,17 @@ public class QnaController {
 	
 	@PostMapping("insert")
 	public String setInsert(BoardVO boardVO, MultipartFile [] files)throws Exception{
-		
 		int result = qnaService.setInsert(boardVO, files);
 		
 		return "redirect:./list";
 	}
-	
+
 	@GetMapping("update")
 	public String setUpdate(BoardVO boardVO, Model model)throws Exception{
 		boardVO = qnaService.getSelect(boardVO);
 		model.addAttribute("vo", boardVO);
 		model.addAttribute("action", "update");
+		
 		return "board/form";
 		
 	}
@@ -84,6 +86,7 @@ public class QnaController {
 		
 		return "redirect:./list";
 	}
+
 	@GetMapping("reply")
 	public String setReplyInsert(BoardVO boardVO, Model model)throws Exception{
 		model.addAttribute("vo", boardVO);
@@ -97,5 +100,12 @@ public class QnaController {
 		
 		return "redirect:./list";
 	}	
+	
+	
+	
+	
+	
+	
+	
 	
 }

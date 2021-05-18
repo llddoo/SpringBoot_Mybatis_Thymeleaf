@@ -15,10 +15,14 @@ public class InterceptorConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		//적용할 Interceptor bean을 등록하는 과정
+		//add -> Interceptor를 적용할 URL 등록
 		registry.addInterceptor(testInterceptor)
-		.addPathPatterns("/notice/**");
+		//.addPathPatterns("/notice/**")
+		.addPathPatterns("/qna/**")
+		//exclude -> Interceptor에서 제외할 URL 등록
+		.excludePathPatterns("/notice/select");
 		//어떤 URL 설정
 		
-		WebMvcConfigurer.super.addInterceptors(registry);
+		//WebMvcConfigurer.super.addInterceptors(registry);
 	}
 }
