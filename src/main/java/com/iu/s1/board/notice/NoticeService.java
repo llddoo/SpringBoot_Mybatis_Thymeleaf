@@ -2,6 +2,7 @@ package com.iu.s1.board.notice;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,11 @@ public class NoticeService implements BoardService {
 	@Override
 	public List<BoardVO> getList(Pager pager) throws Exception {
 		// TODO Auto-generated method stub
+		
+//		if(pager.getCurPage()%2==0) {
+//			throw new SqlSessionException();
+//		}
+		
 		pager.makeRow();
 		Long totalCount = noticeMapper.getTotalCount(pager);
 		pager.makeNum(totalCount);
@@ -58,17 +64,14 @@ public class NoticeService implements BoardService {
 			}
 			String fileName= fileManager.save(multipartFile, filePath);
 			System.out.println(fileName);
-			BoardFileVO boardFileVO =  new BoardFileVO();
+			BoardFileVO boardFileVO = new BoardFileVO();
 			boardFileVO.setFileName(fileName);
 			boardFileVO.setOriName(multipartFile.getOriginalFilename());
 			boardFileVO.setNum(boardVO.getNum());
 			noticeMapper.setFileInsert(boardFileVO);
 		}
 		
-		
-		
-		
-		return 0;//noticeMapper.setInsert(boardVO);
+		return result;
 	}
 
 	@Override

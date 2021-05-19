@@ -2,6 +2,7 @@ package com.iu.s1.board.qna;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.iu.s1.board.BoardFileVO;
 import com.iu.s1.board.BoardService;
 import com.iu.s1.board.BoardVO;
+import com.iu.s1.error.MyException;
 import com.iu.s1.util.FileManager;
 import com.iu.s1.util.Pager;
 @Service
@@ -66,7 +68,14 @@ public class QnaService implements BoardService{
 	@Override
 	public int setUpdate(BoardVO boardVO) throws Exception {
 		// TODO Auto-generated method stub
-		return qnaMapper.setUpdate(boardVO);
+//		Random random = new Random();
+//		int result = random.nextInt(1);
+//		if(result==0) {
+//			//throw new 예외클래스생성자();
+//			throw new MyException("Update Fail");
+//		}
+		
+		return qnaMapper.setUpdate(boardVO); //result;
 	}
 
 	@Override
@@ -78,13 +87,16 @@ public class QnaService implements BoardService{
 		return qnaMapper.setDelete(boardVO);
 	}
 	
-	public int setReplyInsert(BoardVO boardVO, MultipartFile [] files) throws Exception {
+	@Transactional(rollbackFor = Exception.class)
+	public int setReplyInsert(BoardVO boardVO, MultipartFile [] files)throws Exception{
 		//boardVO.num = 부모의 글번호
 		
 		//1. step update
 		int result = qnaMapper.setReplyUpdate(boardVO);
+		
 		//2. reply insert
 		result = qnaMapper.setReplyInsert(boardVO);
+		
 		//3. File Hdd에 저장
 		String filePath= "upload/qna/";
 		
@@ -102,5 +114,7 @@ public class QnaService implements BoardService{
 		}
 		return result;
 	}
+	
+	
 
 }
