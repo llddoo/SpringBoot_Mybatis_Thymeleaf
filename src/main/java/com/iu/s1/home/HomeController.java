@@ -22,8 +22,8 @@ public class HomeController {
 	public String home(Model model) {
 		//model.addAttribute("message", "Thymeleaf Project");
 		BoardVO boardVO = new BoardVO();
-		
-		
+		model.addAttribute("user", "iu");
+		model.addAttribute("msg", "test");
 		return "index";
 	}
 }
