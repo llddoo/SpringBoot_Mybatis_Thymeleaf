@@ -1,10 +1,16 @@
 package com.iu.s1.member;
 
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,13 +29,52 @@ public class MemberController {
 		return "member/memberLogin";
 	}
 	
+	@GetMapping("loginFail")
+	public String loginFail()throws Exception{
+		System.out.println("Login Fail");
+		return "redirect:/member/login";
+	}
+	
 	@GetMapping("memberLoginResult")
-	public String memberLoginResult()throws Exception{
+	public String memberLoginResult(HttpSession session, Authentication auth2)throws Exception{
+		
+		//session의 속성명들 꺼내오기 
+		Enumeration<String> en = session.getAttributeNames();
+		
+		while(en.hasMoreElements()) {
+			System.out.println("Attribute Name : "+en.nextElement());
+		}
+		
+		//로그인 시 session의 속성명 : SPRING_SECURITY_CONTEXT
+		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
+		
+		SecurityContextImpl sc = (SecurityContextImpl)obj;
+		
+		Authentication auth= sc.getAuthentication();
+		System.out.println("===================================");
+		System.out.println("Name : "+auth.getName());
+		System.out.println("Details : "+auth.getDetails());
+		System.out.println("Principal : "+auth.getPrincipal());
+		System.out.println("Authorities : "+auth.getAuthorities());
+		System.out.println("===================================");
+		
+		System.out.println("===================================");
+		System.out.println("Name : "+auth2.getName());
+		System.out.println("Details : "+auth2.getDetails());
+		System.out.println("Principal : "+auth2.getPrincipal());
+		System.out.println("Authorities : "+auth2.getAuthorities());
+		System.out.println("===================================");
+		
+		
+		System.out.println(obj);
+		
 		System.out.println("Login 성공");
 		return "redirect:/";
 	}
 	
-//	@PostMapping("login") // 스프링 시큐리티 쪽에서 다 로그인 처리해줌  그래서 포스트맵핑 안씀
+	
+	
+//	@PostMapping("login") 스프링 시큐리티 쪽에서 다 로그인 처리해줌  그래서 포스트맵핑 안씀
 //	public String getLogin(MemberVO memberVO, HttpSession session)throws Exception{
 //		
 //		memberVO = memberService.getLogin(memberVO);
