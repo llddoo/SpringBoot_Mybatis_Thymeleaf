@@ -9,11 +9,11 @@ public interface MemberMapper {
 	
 	public int setJoin(MemberVO memberVO)throws Exception;
 	
-	public int setMemberRole(Map<String, String> map) throws Exception;
+	public int setMemberRole(Map<String, String> map)throws Exception;
 	
 	public int setJoinFile(MemberFileVO memberFileVO)throws Exception;
 	
-	public MemberVO getLogin(MemberVO memberVO)throws Exception;
+	public MemberVO getLogin(MemberVO memberVO);
 	
 	public MemberVO getUsername(MemberVO memberVO)throws Exception;
 	

@@ -29,7 +29,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-//	@PostMapping("login")
+//	@PostMapping("login") // 스프링 시큐리티 쪽에서 다 로그인 처리해줌  그래서 포스트맵핑 안씀
 //	public String getLogin(MemberVO memberVO, HttpSession session)throws Exception{
 //		
 //		memberVO = memberService.getLogin(memberVO);

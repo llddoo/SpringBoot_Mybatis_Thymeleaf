@@ -24,7 +24,7 @@
 			SELECT M.*, R.* 
 			FROM member M LEFT JOIN member_role MR
 			ON M.username=MR.username
-			INNER JOIN role R
+			LEFT JOIN role R
 			ON MR.id = R.id
 			WHERE M.username=#{username}
 		</select>
