@@ -23,6 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("error")
+	public String error() {
+		return "error/error";
+	}
 
 	@GetMapping("login")
 	public String getLogin()throws Exception{
